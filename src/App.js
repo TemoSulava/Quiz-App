@@ -17,26 +17,34 @@ useEffect(() => {
        .then(data => setQuestions(data.results))
 }, []);
 
+console.log(questions)
 
   //checking if answer is true or false and acting appropriately
   const handleAnswer = (answer) => {
-    setCurrentIndex(currentIndex + 1)
+    const newIndex = currentIndex + 1
+    setCurrentIndex(newIndex)
 
     if (answer === questions[currentIndex].correct_answer) {
       setScore(score + 1)
     }
+
+    if(newIndex >= questions.length) {
+      setGameDone(true);
+    }
   }
   
-  //display loading screen on first render
-  if(questions.length === 0) {
-    return <h2 className="text-2xl text-white font-bold"> Loading... </h2>
-  }
-
-  return (
+  return gameDone ? (
+    <h1 className="text-2xl text-white font-bold">Your score is {score}</h1>
+  ) : questions.length > 0 ? (
     <div className="container">
-     <Questionnaire data={questions[currentIndex]} handleAnswer={handleAnswer} />
+      <Questionnaire  
+      data={questions[currentIndex]} 
+      handleAnswer={handleAnswer} />
     </div>
-  );
+  ) : (
+    <h2 className="text-2xl text-white font-bold">Loading...</h2>
+  )
+    
 }
 
 export default App;
