@@ -9,6 +9,7 @@ function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [showCorrect, setShowCorrect] = useState(false);
+  const [savedScore, setSavedScore] = useState([]);
   
 //fetch the data from the API and set results to questions array
 useEffect(() => {
@@ -27,7 +28,10 @@ useEffect(() => {
        });
 }, []);
 
-console.log(questions)
+useEffect(() => {
+  setSavedScore((prevScore) => [...prevScore, score]);
+}, [score])
+
 
   //checking if answer is true or false and acting appropriately
   const handleAnswer = (answer) => {
@@ -41,6 +45,11 @@ console.log(questions)
     setShowCorrect(true)
   }
 
+  const handleRestart =  () => {
+    setCurrentIndex(0);
+  }
+
+  //Using next button to change question
   const handleQuestionSwitch = () => {
     setShowCorrect(false);
     setCurrentIndex(currentIndex + 1)
@@ -49,9 +58,17 @@ console.log(questions)
   return questions.length > 0 ? (
     <div className="container">
       {currentIndex >= questions.length ? (
-        <h1 className="text-2xl text-white font-bold">
+        <div className="text-2xl text-white font-bold">
           Game Over! Your score is {score}.
-        </h1>
+          <h2>
+            <button
+              className="bg-yellow-700 p-4 text-white-800 font-semibold rounded shadow mt-10 ml-14"
+              onClick={handleRestart}
+            >
+              New Quiz
+            </button>
+          </h2>
+        </div>
       ) : (
         <Questionnaire
           handleQuestionSwitch={handleQuestionSwitch}

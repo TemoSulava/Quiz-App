@@ -35,7 +35,7 @@ const Questionnaire = ({
       {showCorrect && (
         <button
           onClick={handleQuestionSwitch}
-          className={`bg-yellow-700 p-4 text-white-800 font-semibold rounded shadow mt-6`}
+          className='bg-yellow-700 p-4 text-white-800 font-semibold rounded shadow mt-6'
         >
           Next Question
         </button>
