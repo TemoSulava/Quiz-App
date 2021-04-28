@@ -9,7 +9,6 @@ function App() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [showCorrect, setShowCorrect] = useState(false);
-  const [savedScore, setSavedScore] = useState([]);
   
 //fetch the data from the API and set results to questions array
 useEffect(() => {
@@ -27,11 +26,6 @@ useEffect(() => {
            setQuestions(questions)
        });
 }, []);
-
-useEffect(() => {
-  setSavedScore((prevScore) => [...prevScore, score]);
-}, [score])
-
 
   //checking if answer is true or false and acting appropriately
   const handleAnswer = (answer) => {
@@ -55,6 +49,10 @@ useEffect(() => {
     setCurrentIndex(currentIndex + 1)
   }
   
+  /* If data is not yet fetched on first render, we display loading screen
+    When the data is loaded we render our react application
+    After we are out of questions, we display total points earned and the button to restart the Quiz. */
+    
   return questions.length > 0 ? (
     <div className="container">
       {currentIndex >= questions.length ? (
